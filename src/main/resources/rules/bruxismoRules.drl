@@ -1,0 +1,65 @@
+//created on: 7 nov. 2020
+package bruxismo
+
+import model.Persona
+import model.AlineacionDeDientes
+import model.Postura
+import model.Estres
+import model.Insomnio
+import model.Depresion
+import model.Diagnostico
+import model.DiagnosticoFinal
+
+
+rule "R1"
+
+    when
+        $diagnostico:Diagnostico(persona.getAlineacionDeDientes() == AlineacionDeDientes.MAL ||
+         						persona.getHabitoDeApretarLosDientes() == true  ||
+         						(persona.getAlineacionDeDientes() == AlineacionDeDientes.REGULAR && persona.getPostura() == Postura.MAL))
+    then
+		modify($diagnostico) {
+    		setTendenciaABruxismo(true);
+    	}
+    	   
+end
+
+rule "R2"
+
+	when
+		$diagnostico:Diagnostico(persona.getContexto().getEstres() == Estres.SI || (persona.getContexto().getInsomnio() == Insomnio.SI && persona.getContexto().getDepresion() == Depresion.SI))
+	then
+		modify($diagnostico) {
+			setContextoDesfavorable(true);
+		}
+		
+end
+
+rule "R3"
+
+	when
+		$diagnostico:Diagnostico()
+				
+		Persona( getSintomas().getPresentaDolorDeCabeza() || 
+				getSintomas().getPresentaDolorDeOido() || 
+				getSintomas().getPresentaDolorFacial() || 
+				getSintomas().getPresentaInflamaciónDeMandibula() || 
+				getSintomas().getPresentaTrastornoAlimenticio(),
+				getPresentaSintomas() == false) from $diagnostico.persona
+	then
+		modify($diagnostico) {
+			persona.setPresentaSintomas(true);
+		}
+		
+end
+
+rule "R4"
+
+	when
+		$diagnostico:Diagnostico(persona.getPresentaSintomas() && tendenciaABruxismo && contextoDesfavorable)
+	then
+		modify($diagnostico) {
+			setDiagnosticoFinal(DiagnosticoFinal.COMPATIBLE_BRUXISMO);
+		}
+		
+end
