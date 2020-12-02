@@ -5,7 +5,7 @@ public class Sintomas {
 	Boolean presentaDolorFacial;
 	Boolean presentaDolorDeCabeza;
 	Boolean presentaDolorDeOido;
-	Boolean presentaTrastornoAlimenticio;
+	Boolean presentaDesgasteDental;
 	Boolean presentaInflamaciónDeMandibula;
 	
 	public Boolean getPresentaDolorFacial() {
@@ -26,11 +26,11 @@ public class Sintomas {
 	public void setPresentaDolorDeOido(Boolean presentaDolorDeOido) {
 		this.presentaDolorDeOido = presentaDolorDeOido;
 	}
-	public Boolean getPresentaTrastornoAlimenticio() {
-		return presentaTrastornoAlimenticio;
+	public Boolean getPresentaDesgasteDental() {
+		return presentaDesgasteDental;
 	}
-	public void setPresentaTrastornoAlimenticio(Boolean presentaTrastornoAlimenticio) {
-		this.presentaTrastornoAlimenticio = presentaTrastornoAlimenticio;
+	public void setPresentaDesgasteDental(Boolean presentaDesgasteDental) {
+		this.presentaDesgasteDental = presentaDesgasteDental;
 	}
 	public Boolean getPresentaInflamaciónDeMandibula() {
 		return presentaInflamaciónDeMandibula;
@@ -44,14 +44,14 @@ public class Sintomas {
 		this.presentaDolorFacial = false;
 		this.presentaDolorDeCabeza = false;
 		this.presentaDolorDeOido = false;
-		this.presentaTrastornoAlimenticio = false;
+		this.presentaDesgasteDental = false;
 		this.presentaInflamaciónDeMandibula = false;
 	}
 	@Override
 	public String toString() {
 		return "Sintomas [presentaDolorFacial=" + presentaDolorFacial + ", presentaDolorDeCabeza="
 				+ presentaDolorDeCabeza + ", presentaDolorDeOido=" + presentaDolorDeOido
-				+ ", presentaTrastornoAlimenticio=" + presentaTrastornoAlimenticio + ", presentaInflamaciónDeMandibula="
+				+ ", presentaDesgasteDental=" + presentaDesgasteDental + ", presentaInflamaciónDeMandibula="
 				+ presentaInflamaciónDeMandibula + "]";
 	}
 	

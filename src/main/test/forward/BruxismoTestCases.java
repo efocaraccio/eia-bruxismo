@@ -38,8 +38,6 @@ public class BruxismoTestCases {
 	}
 
 	private void prepareKnowledgeSession() {
-		
-		
 		//sessionStatefull = KnowledgeSessionHelper.getStatefulKnowledgeSessionWithCallback(kieContainer, K_SESSION_NAME);
 		sessionStatefull = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, K_SESSION_NAME);
 		// OutputDisplay outputDisplay = new OutputDisplay();
@@ -136,7 +134,8 @@ public class BruxismoTestCases {
 		
 		Contexto contexto = contextoFactory(false);
 		
-		Sintomas sintomas = sintomasFactory(true);
+		Sintomas sintomas = new Sintomas();
+		sintomas.setPresentaDolorFacial(true);
 		
 		Persona persona = personaFactory(true, contexto, sintomas);
 		
@@ -160,7 +159,34 @@ public class BruxismoTestCases {
 		Contexto contexto = contextoFactory(false);
 		contexto.setEstres(Estres.SI);
 		
-		Sintomas sintomas = sintomasFactory(true);
+		Sintomas sintomas = new Sintomas();
+		sintomas.setPresentaInflamaciónDeMandibula(true);
+		
+		Persona persona = personaFactory(true, contexto, sintomas);
+		
+		Diagnostico diagnostico = new Diagnostico();
+		diagnostico.setPersona(persona);
+		
+		print(diagnostico);
+
+		sessionStatefull.insert(diagnostico);
+		sessionStatefull.fireAllRules();
+		
+		DiagnosticoFinal valorEsperado = DiagnosticoFinal.COMPATIBLE_BRUXISMO;
+		
+		assertResults(diagnostico, valorEsperado);
+	}
+	
+	@Test
+	public void compatibleBruxismoPorInsomnioYDepresionPositivos() {
+		print("Caso de prueba: Compatible Bruxismo - Contexto: insomnio y depresión negativo pero estrés positivo");
+		
+		Contexto contexto = contextoFactory(false);
+		contexto.setDepresion(Depresion.SI);
+		contexto.setInsomnio(Insomnio.SI);
+		
+		Sintomas sintomas = new Sintomas();
+		sintomas.setPresentaDolorDeCabeza(true);
 		
 		Persona persona = personaFactory(true, contexto, sintomas);
 		
@@ -202,7 +228,8 @@ public class BruxismoTestCases {
 	
 		Contexto contexto = contextoFactory(true);
 		
-		Sintomas sintomas = sintomasFactory(true);
+		Sintomas sintomas = new Sintomas();
+		sintomas.setPresentaDolorDeOido(true);
 		
 		Persona persona = personaFactory(false, contexto, sintomas);
 		persona.setHabitoDeApretarLosDientes(true);
@@ -221,16 +248,112 @@ public class BruxismoTestCases {
 	}
 	
 	@Test
-	public void compatibleBruxismoPorAlMenosUnSintomaPresente() {
-		print("Caso de prueba: Compatible Bruxismo - Al menos un síntoma está presente");
+	public void compatibleBruxismoPorAlMenosUnSintomaPresenteDolorFacial() {
+		print("Caso de prueba: Compatible Bruxismo - Al menos un sintoma presente - Dolor Facial");
 	
 		Contexto contexto = contextoFactory(true);
 		
 		Sintomas sintomas = sintomasFactory(false);
-		sintomas.setPresentaTrastornoAlimenticio(true);
+		sintomas.setPresentaDolorFacial(true);
 		
 		Persona persona = personaFactory(true, contexto, sintomas);
+
+		Diagnostico diagnostico = new Diagnostico();
+		diagnostico.setPersona(persona);
 		
+		print(diagnostico);
+
+		sessionStatefull.insert(diagnostico);
+		sessionStatefull.fireAllRules();
+		
+		DiagnosticoFinal valorEsperado = DiagnosticoFinal.COMPATIBLE_BRUXISMO;
+		
+		assertResults(diagnostico, valorEsperado);
+	}
+
+	@Test
+	public void compatibleBruxismoPorAlMenosUnSintomaPresenteDolorDeCabeza() {
+		print("Caso de prueba: Compatible Bruxismo - Al menos un sintoma presente - Dolor de Cabeza");
+	
+		Contexto contexto = contextoFactory(true);
+		
+		Sintomas sintomas = sintomasFactory(false);
+		sintomas.setPresentaDolorDeCabeza(true);
+		
+		Persona persona = personaFactory(true, contexto, sintomas);
+
+		Diagnostico diagnostico = new Diagnostico();
+		diagnostico.setPersona(persona);
+		
+		print(diagnostico);
+
+		sessionStatefull.insert(diagnostico);
+		sessionStatefull.fireAllRules();
+		
+		DiagnosticoFinal valorEsperado = DiagnosticoFinal.COMPATIBLE_BRUXISMO;
+		
+		assertResults(diagnostico, valorEsperado);
+	}
+	
+	@Test
+	public void compatibleBruxismoPorAlMenosUnSintomaPresenteDolorDeOido() {
+		print("Caso de prueba: Compatible Bruxismo - Al menos un sintoma presente - Dolor de Oído");
+	
+		Contexto contexto = contextoFactory(true);
+		
+		Sintomas sintomas = sintomasFactory(false);
+		sintomas.setPresentaDolorDeOido(true);
+		
+		Persona persona = personaFactory(true, contexto, sintomas);
+
+		Diagnostico diagnostico = new Diagnostico();
+		diagnostico.setPersona(persona);
+		
+		print(diagnostico);
+
+		sessionStatefull.insert(diagnostico);
+		sessionStatefull.fireAllRules();
+		
+		DiagnosticoFinal valorEsperado = DiagnosticoFinal.COMPATIBLE_BRUXISMO;
+		
+		assertResults(diagnostico, valorEsperado);
+	}
+	
+	@Test
+	public void compatibleBruxismoPorAlMenosUnSintomaPresenteDesgasteDental() {
+		print("Caso de prueba: Compatible Bruxismo - Al menos un sintoma presente - Desgaste Dental");
+	
+		Contexto contexto = contextoFactory(true);
+		
+		Sintomas sintomas = sintomasFactory(false);
+		sintomas.setPresentaDesgasteDental(true);
+		
+		Persona persona = personaFactory(true, contexto, sintomas);
+
+		Diagnostico diagnostico = new Diagnostico();
+		diagnostico.setPersona(persona);
+		
+		print(diagnostico);
+
+		sessionStatefull.insert(diagnostico);
+		sessionStatefull.fireAllRules();
+		
+		DiagnosticoFinal valorEsperado = DiagnosticoFinal.COMPATIBLE_BRUXISMO;
+		
+		assertResults(diagnostico, valorEsperado);
+	}
+	
+	@Test
+	public void compatibleBruxismoPorAlMenosUnSintomaPresenteInglamacionDeMandibula() {
+		print("Caso de prueba: Compatible Bruxismo - Al menos un sintoma presente - Inflamación de mandíbula");
+	
+		Contexto contexto = contextoFactory(true);
+		
+		Sintomas sintomas = sintomasFactory(false);
+		sintomas.setPresentaInflamaciónDeMandibula(true);
+		
+		Persona persona = personaFactory(true, contexto, sintomas);
+
 		Diagnostico diagnostico = new Diagnostico();
 		diagnostico.setPersona(persona);
 		

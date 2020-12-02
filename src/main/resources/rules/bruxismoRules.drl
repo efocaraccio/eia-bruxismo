@@ -14,9 +14,7 @@ import model.DiagnosticoFinal
 rule "R1"
 
     when
-        $diagnostico:Diagnostico(persona.getAlineacionDeDientes() == AlineacionDeDientes.MAL ||
-         						persona.getHabitoDeApretarLosDientes() == true  ||
-         						(persona.getAlineacionDeDientes() == AlineacionDeDientes.REGULAR && persona.getPostura() == Postura.MAL))
+        $diagnostico:Diagnostico(persona.getAlineacionDeDientes() == AlineacionDeDientes.MAL)
     then
 		modify($diagnostico) {
     		setTendenciaABruxismo(true);
@@ -26,8 +24,31 @@ end
 
 rule "R2"
 
+    when
+        $diagnostico:Diagnostico(persona.getHabitoDeApretarLosDientes() == true)
+    then
+		modify($diagnostico) {
+    		setTendenciaABruxismo(true);
+    	}
+    	   
+end
+
+rule "R3"
+
+    when
+        $diagnostico:Diagnostico(persona.getAlineacionDeDientes() == AlineacionDeDientes.REGULAR 
+        						&& persona.getPostura() == Postura.MAL)
+    then
+		modify($diagnostico) {
+    		setTendenciaABruxismo(true);
+    	}
+    	   
+end
+
+rule "R4"
+
 	when
-		$diagnostico:Diagnostico(persona.getContexto().getEstres() == Estres.SI || (persona.getContexto().getInsomnio() == Insomnio.SI && persona.getContexto().getDepresion() == Depresion.SI))
+		$diagnostico:Diagnostico(persona.getContexto().getEstres() == Estres.SI)
 	then
 		modify($diagnostico) {
 			setContextoDesfavorable(true);
@@ -35,16 +56,24 @@ rule "R2"
 		
 end
 
-rule "R3"
+rule "R5"
+
+	when
+		$diagnostico:Diagnostico(persona.getContexto().getInsomnio() == Insomnio.SI
+								&& persona.getContexto().getDepresion() == Depresion.SI)
+	then
+		modify($diagnostico) {
+			setContextoDesfavorable(true);
+		}
+		
+end
+
+rule "R6"
 
 	when
 		$diagnostico:Diagnostico()
 				
-		Persona( getSintomas().getPresentaDolorDeCabeza() || 
-				getSintomas().getPresentaDolorDeOido() || 
-				getSintomas().getPresentaDolorFacial() || 
-				getSintomas().getPresentaInflamaciónDeMandibula() || 
-				getSintomas().getPresentaTrastornoAlimenticio(),
+		Persona( getSintomas().getPresentaDolorFacial(),
 				getPresentaSintomas() == false) from $diagnostico.persona
 	then
 		modify($diagnostico) {
@@ -53,7 +82,63 @@ rule "R3"
 		
 end
 
-rule "R4"
+rule "R7"
+
+	when
+		$diagnostico:Diagnostico()
+				
+		Persona( getSintomas().getPresentaDolorDeCabeza(),
+				getPresentaSintomas() == false) from $diagnostico.persona
+	then
+		modify($diagnostico) {
+			persona.setPresentaSintomas(true);
+		}
+		
+end
+
+rule "R8"
+
+	when
+		$diagnostico:Diagnostico()
+				
+		Persona( getSintomas().getPresentaDolorDeOido(),
+				getPresentaSintomas() == false) from $diagnostico.persona
+	then
+		modify($diagnostico) {
+			persona.setPresentaSintomas(true);
+		}
+		
+end
+
+rule "R9"
+
+	when
+		$diagnostico:Diagnostico()
+				
+		Persona( getSintomas().getPresentaDesgasteDental(),
+				getPresentaSintomas() == false) from $diagnostico.persona
+	then
+		modify($diagnostico) {
+			persona.setPresentaSintomas(true);
+		}
+		
+end
+
+rule "R10"
+
+	when
+		$diagnostico:Diagnostico()
+				
+		Persona( getSintomas().getPresentaInflamaciónDeMandibula(),
+				getPresentaSintomas() == false) from $diagnostico.persona
+	then
+		modify($diagnostico) {
+			persona.setPresentaSintomas(true);
+		}
+		
+end
+
+rule "R11"
 
 	when
 		$diagnostico:Diagnostico(persona.getPresentaSintomas() && tendenciaABruxismo && contextoDesfavorable)

@@ -62,7 +62,7 @@ public class TestCaseUtils {
 		sintomas.setPresentaDolorDeOido(isPositive);
 		sintomas.setPresentaDolorFacial(isPositive);
 		sintomas.setPresentaInflamaciónDeMandibula(isPositive);
-		sintomas.setPresentaTrastornoAlimenticio(isPositive);
+		sintomas.setPresentaDesgasteDental(isPositive);
 		return sintomas;
 	}
 	

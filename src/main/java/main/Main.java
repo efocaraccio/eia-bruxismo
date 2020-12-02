@@ -24,7 +24,7 @@ public class Main {
 		KieContainer container = KnowledgeSessionHelper.createRuleBase();
 		String sessionName = "ksession-bruxismo-rules";
 		KieSession session = KnowledgeSessionHelper.getStatefulKnowledgeSession(container, sessionName);
-		//session.addEventListener(buildEventListener());
+		session.addEventListener(buildEventListener());
 
 		Contexto contexto = createAndBuildContexto();
 		Sintomas sintomas = createAndBuildSintomas();
@@ -65,7 +65,7 @@ public class Main {
 		sintomas.setPresentaDolorDeOido(true);
 		sintomas.setPresentaDolorFacial(false);
 		sintomas.setPresentaInflamaciónDeMandibula(true);
-		sintomas.setPresentaTrastornoAlimenticio(false);
+		sintomas.setPresentaDesgasteDental(false);
 		
 		return sintomas;
 	}
